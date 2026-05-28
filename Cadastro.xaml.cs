@@ -6,11 +6,11 @@ using MySql.Data.MySqlClient;
 
 namespace CRUD;
 
-public partial class MainWindow : Window
+public partial class Cadastro : Window
 {
     public string stringConexao =  Environment.GetEnvironmentVariable("MYSQL_STRING");
     
-    public MainWindow()
+    public Cadastro()
 
     {
 
@@ -18,7 +18,7 @@ public partial class MainWindow : Window
 
     }
 
-    private void BtnCadastrar_OnClick(object sender, RoutedEventArgs e)
+    private void b(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrEmpty(txtNome.Text) || string.IsNullOrEmpty(txtUsername.Text) ||
             string.IsNullOrEmpty(txtEmail.Text) || string.IsNullOrEmpty(txtSenha.Password))
@@ -66,5 +66,15 @@ public partial class MainWindow : Window
 
             }
         }
+    }
+
+    private void BtnCadastrar_OnClick(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void BtnLogin_OnClick(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 }
