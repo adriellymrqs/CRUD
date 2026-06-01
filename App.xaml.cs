@@ -13,10 +13,13 @@ namespace CRUD;
 public partial class App : Application
 
 {
+    internal static string? StringConexao;
     protected override void OnStartup(StartupEventArgs e)
     { 
         Env.Load("C:\\Users\\Aluno\\RiderProjects\\CRUD\\.env");
-        Console.WriteLine(Env.GetString("MY_STRING"));
+
+        StringConexao = Env.GetString("MYSQL_STRING");
+        
         base.OnStartup(e);
     }
 
