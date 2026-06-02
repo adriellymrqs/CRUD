@@ -27,43 +27,37 @@ public partial class Cadastro : Window
             return;
         }
 
-        using (var conexao = new MySqlConnection(stringConexao))
+        using var conexao = new MySqlConnection(stringConexao);
+        const string query = "INSERT INTO usuarios (nome, username, email, senha) VALUES (@nome,@username,@email,@senha)";
+        using var comando = new MySqlCommand(query, conexao);
+        comando.Parameters.AddWithValue("@nome", txtNome.Text);
+        comando.Parameters.AddWithValue("@username", txtUsername.Text);
+        comando.Parameters.AddWithValue("@email", txtEmail.Text);
+        comando.Parameters.AddWithValue("@senha", txtSenha.Password);
+
+        try
         {
-
-            var query = "INSERT INTO usuarios (nome, username, email, senha) VALUES (@nome,@username,@email,@senha)";
-            using (var comando = new MySqlCommand(query, conexao))
+            conexao.Open();
+            var linhasAfetadas = comando.ExecuteNonQuery();
+            if (linhasAfetadas > 0)
             {
-                comando.Parameters.AddWithValue("@nome", txtNome.Text);
-                comando.Parameters.AddWithValue("@username", txtUsername.Text);
-                comando.Parameters.AddWithValue("@email", txtEmail.Text);
-                comando.Parameters.AddWithValue("@senha", txtSenha.Password);
+                MessageBox.Show("cadastro efetuado com sucesso!");
 
-                try
+            }
+        }
+        catch (Exception exception)
+        {
+            if (exception is MySqlException erroSql)
+            {
+                if (erroSql.Number == 1062)
                 {
-                    conexao.Open();
-                    var linhasAfetadas = comando.ExecuteNonQuery();
-                    if (linhasAfetadas > 0)
-                    {
-                        MessageBox.Show("cadastro efetuado com sucesso!");
-
-                    }
-                }
-                catch (Exception exception)
-                {
-                    if (exception is MySqlException erroSql)
-                    {
-                        if (erroSql.Number == 1062)
-                        {
-                            MessageBox.Show("o email ou username ja foram utilizados");
-                            return;
-                        }
-
-
-                        Console.WriteLine(exception);
-                        return;
-                    }
+                    MessageBox.Show("o email ou username ja foram utilizados");
+                    return;
                 }
 
+
+                Console.WriteLine(exception);
+                return;
             }
         }
     }

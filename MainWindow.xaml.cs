@@ -29,39 +29,44 @@ public partial class MainWindow : Window
 
         using (var conexao = new MySqlConnection(App.StringConexao))
         {
-            var query = "SELECT * FROM usuarios WHERE username = @username AND senha = @senha";
-            
-            using (var comando  = new MySqlCommand(query, conexao))
+            const string query = "SELECT * FROM usuarios WHERE username = @username AND senha = @senha";
+
+            using (var comando = new MySqlCommand(query, conexao))
             {
                 comando.Parameters.AddWithValue("@username", TxtUsuario.Text);
                 comando.Parameters.AddWithValue("@senha", TxtSenha.Password);
 
                 try
                 {
-                  conexao.Open();
-                  using (var leitor = comando.ExecuteReader())
-                  {
-                      if (!leitor.HasRows)
-                      {
-                          MessageBox.Show("usuario ou senha incorreta.", "Erro!");
-                          return;
+                    conexao.Open();
+                    using (var leitor = comando.ExecuteReader())
+                    {
+                        if (!leitor.HasRows)
+                        {
+                            MessageBox.Show("usuario ou senha incorreta.", "Erro!");
+                            return;
+                        }
 
-                      }
-
-                      while (leitor.Read())
-                      {
-                          MessageBox.Show((leitor.GetString(1)));
-                      }
-                  }
+                        while (leitor.Read())
+                        {
+                            MessageBox.Show((leitor.GetString(1)));
+                        }
+                    }
                 }
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception);
                     return;
-                
-                
                 }
             }
         }
     }
+
+private void BtnCadastro_OnClick(object sender, RoutedEventArgs e)
+{
+    var janelaCadastro = new Cadastro();
+    Hide();
+    janelaCadastro.ShowDialog();
+    Show();
+}
 }
