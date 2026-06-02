@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CRUD.Modelos;
 using MySql.Data.MySqlClient;
 
 namespace CRUD;
@@ -39,18 +40,23 @@ public partial class MainWindow : Window
                 try
                 {
                     conexao.Open();
-                    using (var leitor = comando.ExecuteReader())
+                    using var leitor = comando.ExecuteReader();
+                    if (!leitor.HasRows)
                     {
-                        if (!leitor.HasRows)
-                        {
-                            MessageBox.Show("usuario ou senha incorreta.", "Erro!");
-                            return;
-                        }
+                        MessageBox.Show("usuario ou senha incorreta.", "Erro!");
+                        return;
+                    }
 
-                        while (leitor.Read())
-                        {
-                            MessageBox.Show((leitor.GetString(1)));
-                        }
+                    while (leitor.Read())
+                    {
+                        var usuarioBanco = new Usuario();
+
+                        usuarioBanco.Id = leitor.GetInt32(0);
+                        usuarioBanco.Nome = leitor.GetString(1);
+                        usuarioBanco.Email = leitor.GetString(2);
+                        usuarioBanco.Username = leitor.GetString(4);
+                        
+                        new MeuPerfil(usuarioBanco).Show();
                     }
                 }
                 catch (Exception exception)
