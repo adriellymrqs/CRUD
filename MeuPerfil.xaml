@@ -30,7 +30,7 @@
                          Height="90" 
                          HorizontalAlignment="Center">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThYYEtCu9Dwnf9o7nBsvdykbgq8V3eLMOFKAs.png" Stretch="UniformToFill"/>
+                        <ImageBrush ImageSource="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" Stretch="UniformToFill"/>
                     </Ellipse.Fill>
                 </Ellipse>
 
@@ -97,7 +97,8 @@
                         Foreground="#DC2626"
                         BorderThickness="0"
                         Margin="0,15,0,0"
-                        Cursor="Hand">
+                        Cursor="Hand"
+                        Click ="BtnDeletarPerfil_OnClick">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">

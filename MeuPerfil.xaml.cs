@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using CRUD.Modelos;
 using MySql.Data.MySqlClient;
+using Mysqlx.Cursor;
 
 namespace CRUD;
 
@@ -20,7 +21,7 @@ public partial class MeuPerfil : Window
     }
 
     private void BtnSalvar_OnClick(object sender, RoutedEventArgs e)
-    
+
     {
         if (string.IsNullOrWhiteSpace(TxtNome.Text))
         {
@@ -46,7 +47,7 @@ public partial class MeuPerfil : Window
         }
 
         var senhaFoiAlterada = !string.IsNullOrWhiteSpace(TxtSenha.Password);
-        
+
         UsuarioAtual.Username = TxtUsername.Text;
         UsuarioAtual.Nome = TxtNome.Text;
         UsuarioAtual.Email = TxtEmail.Text;
@@ -66,10 +67,10 @@ public partial class MeuPerfil : Window
         comando.Parameters.AddWithValue("@id", UsuarioAtual.Id);
 
         if (senhaFoiAlterada) comando.ExecuteNonQuery();
-        
+
         try
         {
-            conexao.Open();
+
             var linhasAfetadas = comando.ExecuteNonQuery();
             if (linhasAfetadas > 0)
             {
@@ -78,6 +79,44 @@ public partial class MeuPerfil : Window
             else
             {
                 MessageBox.Show("Erro ao atualizar o cadastro!");
+            }
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show($"Erro de DB: {exception.Message}");
+        }
+    }
+
+    private void BtnDeletarPerfil_OnClick(object sender, RoutedEventArgs e)
+    {
+        var resultado = MessageBox.Show("tem certeza que deseja excluir sua conta?", "confirme", MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+        if (resultado == MessageBoxResult.No)
+        {
+            return;
+        }
+
+        try
+        {
+            string query = "DELETE FROM usuarios WHERE id = @id";
+            using (MySqlConnection conexao = new MySqlConnection(App.StringConexao))
+            {
+                using (MySqlCommand COMANDO = new MySqlCommand(query, conexao))
+                {
+                    COMANDO.Parameters.AddWithValue("@id", UsuarioAtual.Id);
+
+                    conexao.Open();
+                    var linhasAfetadas = COMANDO.ExecuteNonQuery();
+                    if (linhasAfetadas > 0)
+                    {
+                        MessageBox.Show("Conta excluida com sucesso!");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao excluir o cadastro!");
+                    }
+                }
             }
         }
         catch (Exception exception)
