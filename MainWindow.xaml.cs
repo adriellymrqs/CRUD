@@ -62,7 +62,7 @@ public partial class MainWindow : Window
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception);
-                    return;
+                    
                 }
             }
         }

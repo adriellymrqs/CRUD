@@ -53,18 +53,18 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                        <TextBlock Text="Cezinha rei" FontWeight="Bold" FontSize="14"
+                                        <TextBlock Text="{Binding Usuario.Nome}" FontWeight="Bold" FontSize="14"
                                                    Foreground="#111827"
                                                    Margin="0,0,5,0" />
-                                        <TextBlock Text="@cezinharei1" Foreground="#6B7280" FontSize="14" />
+                                        <TextBlock Text="{Binding Usuario.Username, StringFormat='@{0}'}" Foreground="White" FontSize="14" />
                                     </StackPanel>
 
-                                    <TextBlock Grid.Column="1" Text="08 Jun - 15:39" Foreground="#9CA3AF" FontSize="12"
+                                    <TextBlock Grid.Column="1" Text="{Binding Postado_em, StringFormat='dd MMM - HH:mm'}" Foreground="#9CA3AF" FontSize="12"
                                                VerticalAlignment="Center" />
                                 </Grid>
 
                                 <!-- Conteúdo do Post -->
-                                <TextBlock Grid.Row="1" Text="Shinee é o rei do mundo ! 🚀" FontSize="14"
+                                <TextBlock Grid.Row="1" Text="{Binding Conteudo}" FontSize="14"
                                            Foreground="#374151" TextWrapping="Wrap" Margin="0,0,0,12" />
 
                                 <!-- Ações: Botão de Curtir -->

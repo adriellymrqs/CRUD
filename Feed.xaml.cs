@@ -6,7 +6,7 @@ namespace CRUD;
 
 public partial class Feed : Window
 {
-    public Feed()
+    public Feed(Usuario usuario)
     {
         InitializeComponent();
         CarregarPosts_QuandoIniciar();
@@ -17,7 +17,7 @@ public partial class Feed : Window
         List<Postagem> listaPostagem = [];
 
         const string query =
-            "SELECT  p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id;";
+            "SELECT  p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.postado_em DESC";
 
         using var conexao = new MySqlConnection(App.StringConexao);
 
@@ -54,7 +54,7 @@ public partial class Feed : Window
                     Id = leitor.GetInt32("id"),
                     Conteudo = leitor.GetString("conteudo"),
                     Curtidas = leitor.GetInt32("curtidas"),
-                    postado_em = leitor.GetDateTime("postado_em"),
+                    Postado_em = leitor.GetDateTime("postado_em"),
                     Usuario = new Usuario
                     {
                         Nome = leitor.GetString("nome"),
