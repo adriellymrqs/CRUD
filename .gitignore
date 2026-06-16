@@ -3,6 +3,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-.env
 .idea/
-CRUD.sln.DotSetting.user
+.env
+CRUD.sln.DotSettings.user

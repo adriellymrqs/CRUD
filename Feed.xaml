@@ -3,80 +3,100 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:CRUD"
         xmlns:modelos="clr-namespace:CRUD.Modelos"
         mc:Ignorable="d"
-        Title="Feed" Height="450" Width="800">
-    <Grid>
+        Title="Feed" Height="680" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Border Background="White"
+                CornerRadius="8"
+                Padding="30"
+                Width="420"
+                Height="600">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" Opacity="0.1" />
+            </Border.Effect>
 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Text="Feed Social"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="#111827"
+                           Margin="0,0,0,20"
+                           HorizontalAlignment="Center" />
 
-            <!-- Barra Superior -->
-            <Border Grid.Row="0" Background="White" BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Padding="15,10">
-                <TextBlock Text="Meu Feed" FontSize="18" FontWeight="Bold" Foreground="#111827" />
-            </Border>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel>
+                        <ItemsControl x:Name="ItemsControlFeed">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type modelos:Postagem}">
+                                    <Border BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Margin="0,0,0,20"
+                                            Padding="0,0,0,15">
+                                        <StackPanel>
+                                            <DockPanel Margin="0,0,0,10">
+                                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                                    <TextBlock Text="{Binding Usuario.Nome}"
+                                                               FontWeight="Bold"
+                                                               FontSize="14"
+                                                               Foreground="#111827" />
+                                                    <TextBlock Text="{Binding Usuario.Username, StringFormat='@{0}' }"
+                                                               Foreground="#374151"
+                                                               FontSize="13"
+                                                               Margin="5,0,0,0"
+                                                               Opacity="0.7" />
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Postado_em, StringFormat='dd MMM - HH:mm'}"
+                                                           Foreground="#374151"
+                                                           FontSize="12"
+                                                           Opacity="0.5"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center" />
+                                            </DockPanel>
 
-            <!-- Lista de Posts (Feed) -->
-            <ItemsControl x:Name="ItemsControlFeed" Grid.Row="1" Background="Transparent" BorderThickness="0"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl.Style>
-                    <Style TargetType="ItemsControl">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="Focusable" Value="False" />
-                        <Setter Property="Margin" Value="0,0,0,10" />
-                    </Style>
-                </ItemsControl.Style>
+                                            <TextBlock
+                                                Text="{Binding Conteudo}"
+                                                TextWrapping="Wrap"
+                                                FontSize="14"
+                                                Foreground="#374151"
+                                                Margin="0,0,0,15" />
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type modelos:Postagem}">
-                        <Border Background="Black" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1"
-                                Padding="15"
-                                Margin="10,5">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="❤️ Curtir"
+                                                        Height="35"
+                                                        Width="100"
+                                                        HorizontalAlignment="Left"
+                                                        Background="#2563EB"
+                                                        Foreground="White"
+                                                        FontWeight="Bold"
+                                                        BorderThickness="0"
+                                                        Cursor="Hand"
+                                                        Click="BtnCurtir_OnClick"
+                                                        Tag="{Binding}">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5" />
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                                <TextBlock VerticalAlignment="Center"
+                                                           Margin="8,0"
+                                                           Text="{Binding Curtidas, StringFormat='{}{0} curtidas'}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                                <!-- Cabeçalho: Nome, Usuário e Data -->
-                                <Grid Grid.Row="0" Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Usuario.Nome}" FontWeight="Bold" FontSize="14"
-                                                   Foreground="#111827"
-                                                   Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Usuario.Username, StringFormat='@{0}'}" Foreground="White" FontSize="14" />
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="1" Text="{Binding Postado_em, StringFormat='dd MMM - HH:mm'}" Foreground="#9CA3AF" FontSize="12"
-                                               VerticalAlignment="Center" />
-                                </Grid>
-
-                                <!-- Conteúdo do Post -->
-                                <TextBlock Grid.Row="1" Text="{Binding Conteudo}" FontSize="14"
-                                           Foreground="#374151" TextWrapping="Wrap" Margin="0,0,0,12" />
-
-                                <!-- Ações: Botão de Curtir -->
-                                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                    <Button Content="❤️ Curtir" Background="Transparent" BorderThickness="0"
-                                            Foreground="#DC2626" FontWeight="SemiBold" Cursor="Hand" Padding="5,2" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

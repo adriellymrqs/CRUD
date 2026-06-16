@@ -3,66 +3,86 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CRUD"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-        <Grid Margin="30">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/> <!-- Título -->
-                <RowDefinition Height="Auto"/> <!-- Campo Usuário -->
-                <RowDefinition Height="Auto"/> <!-- Campo Senha -->
-                <RowDefinition Height="Auto"/> <!-- Botão Login -->
-                <RowDefinition Height="Auto"/> <!-- Botão Cadastrar -->
-            </Grid.RowDefinitions>
+        Title="Cadastro de Usuário"
+        Height="560" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Border Background="White"
+                CornerRadius="8"
+                Padding="30"
+                Width="360">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" Opacity="0.1" />
+            </Border.Effect>
 
-            <!-- Título -->
-            <TextBlock Grid.Row="0" Text="Bem-vindo" 
-                       FontSize="28" FontWeight="Bold" Foreground="#333333"
-                       HorizontalAlignment="Center" Margin="0,0,0,30"/>
+            <StackPanel>
+                <TextBlock Text="Criar Conta"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="#111827"
+                           Margin="0,0,0,20"
+                           HorizontalAlignment="Center" />
+                
+                <TextBlock Text="Nome"
+                           FontSize="14"
+                           Foreground="#374151"
+                           Margin="0,0,0,5" />
+                <TextBox x:Name="TxtNome"
+                         Height="35"
+                         Margin="0,0,0,15"
+                         VerticalContentAlignment="Center"
+                         Padding="5,0" />
 
-            <!-- Campo Usuário -->
-            <StackPanel Grid.Row="1" Margin="0,0,0,15">
-                <TextBlock Text="Usuário:" Margin="0,0,0,5" Foreground="#666666"/>
-                <TextBox x:Name="TxtUsuario" Height="35" Padding="5" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Username"
+                           FontSize="14"
+                           Foreground="#374151"
+                           Margin="0,0,0,5" />
+                <TextBox x:Name="TxtUsername"
+                         Height="35"
+                         Margin="0,0,0,15"
+                         VerticalContentAlignment="Center"
+                         Padding="5,0" />
+                
+                <TextBlock Text="E-mail"
+                           FontSize="14"
+                           Foreground="#374151"
+                           Margin="0,0,0,5" />
+                <TextBox x:Name="TxtEmail"
+                         Height="35"
+                         Margin="0,0,0,15"
+                         VerticalContentAlignment="Center"
+                         Padding="5,0" />
+                
+                <TextBlock Text="Senha"
+                           FontSize="14"
+                           Foreground="#374151"
+                           Margin="0,0,0,5" />
+                <PasswordBox x:Name="TxtSenha"
+                             Height="35"
+                             Margin="0,0,0,25"
+                             VerticalContentAlignment="Center"
+                             Padding="5,0" />
+                
+                <Button x:Name="BtnCadastrar"
+                        Content="Cadastrar"
+                        Height="40"
+                        Background="#2563EB"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="BtnCadastrar_OnClick">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                
             </StackPanel>
-
-            <!-- Campo Senha -->
-            <StackPanel Grid.Row="2" Margin="0,0,0,25">
-                <TextBlock Text="Senha:" Margin="0,0,0,5" Foreground="#666666"/>
-                <PasswordBox x:Name="TxtSenha" Height="35" Padding="5" VerticalContentAlignment="Center"/>
-            </StackPanel>
-
-            <!-- Botão Login -->
-            <Button Grid.Row="3" x:Name="BtnLogin" Content="Entrar" 
-                    Height="40" Background="#007ACC" Foreground="White" 
-                    FontWeight="Bold" BorderThickness="0" Margin="0,0,0,15"
-                    Click="BtnLogin_OnClick"/>
-
-            <!-- Botão Cadastrar -->
-            <Button Grid.Row="4" x:Name="BtnCadastrar" Content="Criar uma conta" 
-                    Height="30" Background="Transparent" Foreground="#007ACC" 
-                    BorderThickness="0" Cursor="Hand"
-                    Click="BtnCadastrar_OnClick"/>
-        </Grid>
-        <StackPanel Margin="30" VerticalAlignment="Center">
-            <TextBlock Text="Nome:" Margin="0,0,0,5" />
-            <TextBox x:Name="txtNome" Height="30" Margin="0,0,0,15" Padding="5"/>
-            
-            <TextBlock Text="username:" Margin="0,0,0,5" />
-             <TextBox x:Name="txtUsername" Height="30" Margin="0,0,0,15" Padding="5" />
-                 
-            <TextBlock Text="email" Margin="0,0,0,5" />
-            <TextBox x:Name="txtEmail" Height="30" Margin="0,0,0,15" Padding="5" />
-            
-            <TextBlock Text="senha:" Margin="0,0,0,5" />
-            <PasswordBox x:Name="txtSenha" Height="30" Margin="0,0,0,15" Padding="5" />
-            
-            <Button x:Name="btnCadastrar" Content="Cadastrar" Height="33"
-                    Click="BtnCadastrar_OnClick" Background="DarkCyan" Foreground="DarkGray" />
-                    
-  </StackPanel>                  
- </Grid>               
-    </Window> 
-            
+        </Border>
+    </Grid>
+</Window>

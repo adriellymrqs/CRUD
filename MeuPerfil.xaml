@@ -98,7 +98,8 @@
                         BorderThickness="0"
                         Margin="0,15,0,0"
                         Cursor="Hand"
-                        Click ="BtnDeletarPerfil_OnClick">
+                        Click="BtnDeletarPerfil_OnClick"
+                        >
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">

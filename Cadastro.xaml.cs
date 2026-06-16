@@ -1,39 +1,34 @@
-﻿using System.Text;
-using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Windows;
 using MySql.Data.MySqlClient;
-
 
 namespace CRUD;
 
 public partial class Cadastro : Window
 {
-    public string stringConexao =  Environment.GetEnvironmentVariable("MYSQL_STRING");
-    
     public Cadastro()
-
     {
-
         InitializeComponent();
-
     }
 
-    private void b(object sender, RoutedEventArgs e)
+    private void BtnCadastrar_OnClick(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(txtNome.Text) || string.IsNullOrEmpty(txtUsername.Text) ||
-            string.IsNullOrEmpty(txtEmail.Text) || string.IsNullOrEmpty(txtSenha.Password))
+        if (string.IsNullOrWhiteSpace(TxtNome.Text) ||
+            string.IsNullOrWhiteSpace(TxtUsername.Text) ||
+            string.IsNullOrWhiteSpace(TxtEmail.Text) ||
+            string.IsNullOrWhiteSpace(TxtSenha.Password))
         {
-            MessageBox.Show("Todos os campos são obrigatorios.", "erro!");
+            MessageBox.Show("Todos os campos são obrigatórios.", "Erro!");
             return;
         }
 
-        using var conexao = new MySqlConnection(stringConexao);
-        const string query = "INSERT INTO usuarios (nome, username, email, senha) VALUES (@nome,@username,@email,@senha)";
+        using var conexao = new MySqlConnection(App.StringConexao);
+        const string query = "INSERT INTO usuarios(nome, username, email, senha) VALUES(@nome, @username, @email, @senha)";
+
         using var comando = new MySqlCommand(query, conexao);
-        comando.Parameters.AddWithValue("@nome", txtNome.Text);
-        comando.Parameters.AddWithValue("@username", txtUsername.Text);
-        comando.Parameters.AddWithValue("@email", txtEmail.Text);
-        comando.Parameters.AddWithValue("@senha", txtSenha.Password);
+        comando.Parameters.AddWithValue("@nome", TxtNome.Text);
+        comando.Parameters.AddWithValue("@username", TxtUsername.Text);
+        comando.Parameters.AddWithValue("@email", TxtEmail.Text);
+        comando.Parameters.AddWithValue("@senha", TxtSenha.Password);
 
         try
         {
@@ -41,8 +36,7 @@ public partial class Cadastro : Window
             var linhasAfetadas = comando.ExecuteNonQuery();
             if (linhasAfetadas > 0)
             {
-                MessageBox.Show("cadastro efetuado com sucesso!");
-
+                MessageBox.Show("Cadastro realizado!");
             }
         }
         catch (Exception exception)
@@ -51,24 +45,13 @@ public partial class Cadastro : Window
             {
                 if (erroSql.Number == 1062)
                 {
-                    MessageBox.Show("o email ou username ja foram utilizados");
+                    MessageBox.Show("O email ou username já foram utilizados");
                     return;
                 }
-
-
-                Console.WriteLine(exception);
-                return;
             }
+                    
+            Console.WriteLine(exception);
+            return;
         }
-    }
-
-    private void BtnCadastrar_OnClick(object sender, RoutedEventArgs e)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void BtnLogin_OnClick(object sender, RoutedEventArgs e)
-    {
-        throw new NotImplementedException();
     }
 }
