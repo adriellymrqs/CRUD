@@ -21,7 +21,7 @@ public partial class Feed : Window
         List<Postagem> listaPostagens = [];
 
         const string query =
-            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE) As curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id INNER JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = @usuario_id ORDER BY p.postado_em DESC;";
+            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE) As curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id LEFT JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = @usuario_id ORDER BY p.postado_em DESC;";
 
         using var conexao = new MySqlConnection(App.StringConexao);
 
@@ -52,7 +52,7 @@ public partial class Feed : Window
                     Conteudo = leitor.GetString("conteudo"),
                     Curtidas = leitor.GetInt32("curtidas"),
                     Postado_em = leitor.GetDateTime("postado_em"),
-                    FoiCurtido = leitor.GetBoolean("foi_curtido"),
+                    FoiCurtido = leitor.GetBoolean("curtido"),
                     Usuario = new Usuario
                     {
                         Nome = leitor.GetString("nome"),
@@ -92,12 +92,14 @@ public partial class Feed : Window
                 query = "DELETE FROM curtidas_postagens WHERE usuario_id = @usuario AND postagem_id = @postagem";
                 acao = "descurtir";
                 postagem.FoiCurtido = false;
+                postagem.Curtidas--;
             }
             else
             {
                 query = "INSERT INTO curtidas_postagens(usuario_id, postagem_id) VALUES (@usuario, @postagem)";
                 acao = "curtir";
                 postagem.FoiCurtido = true;
+                postagem.Curtidas++;
             }
             conexao.Close();
             comando.CommandText = query;
