@@ -71,18 +71,21 @@
                                                         Height="35"
                                                         Width="100"
                                                         HorizontalAlignment="Left"
-                                                        Background="#2563EB"
-                                                        Foreground="White"
                                                         FontWeight="Bold"
                                                         BorderThickness="0"
                                                         Cursor="Hand"
                                                         Click="BtnCurtir_OnClick"
                                                         Tag="{Binding}">
-                                                    <Button.Resources>
-                                                        <Style TargetType="Border">
-                                                            <Setter Property="CornerRadius" Value="5" />
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" Value="#2563EB" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding FoiCurtido}" Value="True">
+                                                                    <Setter Property="Foreground" Value="#FF0000" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
                                                         </Style>
-                                                    </Button.Resources>
+                                                    </Button.Style>
                                                 </Button>
                                                 <TextBlock VerticalAlignment="Center"
                                                            Margin="8,0"
