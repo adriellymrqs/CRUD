@@ -7,6 +7,8 @@ public class Postagem : INotifyPropertyChanged
 {
     private int _curtidas;
     private bool _foiCurtido;
+    
+    public bool SuaPostagem { get; set; }
 
     public int Id { get; set; }
     public string Conteudo { get; set; } = string.Empty;
