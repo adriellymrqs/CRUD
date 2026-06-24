@@ -21,7 +21,7 @@ public partial class Feed : Window
         List<Postagem> listaPostagens = [];
 
         const string query =
-            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.id AS usuario_id u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE)" +
+            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.id AS usuario_id, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE)" +
             " AS curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id LEFT JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = " +
             "@usuario_id ORDER BY p.postado_em DESC";
 
@@ -135,5 +135,44 @@ public partial class Feed : Window
     {
         new MeuPerfil(_usuario).ShowDialog();
         CarregarPosts_QuandoIniciar();
+    }
+
+    private void BtnEditarPostagem_OnClick(object sender, RoutedEventArgs e)
+    {
+        
+    }
+
+    private void BtnApagarPostagem_OnClick(object sender, RoutedEventArgs e)
+    {
+        var resultadoConfirmacao = MessageBox.Show("Tem certeza que deseja apagar a postagem?", "Confirmar exclusão",
+            MessageBoxButton.YesNo);
+
+        if (resultadoConfirmacao == MessageBoxResult.No) return;
+
+        var botao = (Button)sender;
+        var postagemId = (int)botao.Tag;
+
+
+        using var conexao = new MySqlConnection(App.StringConexao);
+        const string query = "DELETE FROM postagens WHERE ID = @postagem_id";
+        using var comando = new MySqlCommand(query, conexao);
+        comando.Parameters.AddWithValue("@postagem_id", postagemId);
+
+        try
+        {
+         conexao.Open();
+         var linhasAfetadas = comando.ExecuteNonQuery();
+         if  (linhasAfetadas < 1) throw new Exception("A ação de exclusão do post não deu certo!");
+         MessageBox.Show("Sua postagem foi deletada");
+         CarregarPosts_QuandoIniciar();
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show($"Erro de DB:{exception.Message}");
+        }
+        finally
+        {
+            conexao.Close();
+        }
     }
 }
